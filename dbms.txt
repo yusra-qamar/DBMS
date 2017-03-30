@@ -1,0 +1,110 @@
+LAB#3:
+Q1:
+
+select e.ename, d.department_name,d.location
+from employ e, department d
+where NVL(comm,0)<>0
+
+Q2:
+
+select worker.ename||'works for'|| manager.ename
+from emp worker, emp manager
+where worker.mgr=manager.empno(+)
+
+Q3:
+
+select w.name||'works for'||man.ename
+from emp w, emp man
+where(w.mgr=man.empno AND man.empno = 'KING')
+
+Q4:
+
+select e.job, d.loc
+from emp e, dep d
+where( d.depno=e.depno
+AND
+d.depno=30)
+
+Q5:
+
+select e.ename,e.job, d.deptname
+from emp e, dept d
+where (d.loc= 'DALLAS' AND e.deptno=d.deptno)
+
+Q6:
+
+select worker.ename as "employ", worker.eno as "emp#",man.name as "manager", man.mgr as"manager #"
+from emp worker, emp man
+where worker.mgr=man.empno;
+
+LAB#04:
+
+Q1:
+1.HSALAR
+2.FORMTECH
+3.GETING , 3
+4.69.5
+5.1-MAR-90
+6.1-JAN-90
+7.6
+8.16.5
+
+Q2:
+1
+
+select * sysdate current_date from dual;
+
+2:
+
+select empno, ename, trunc(((sal*0.15)+sal)) New_sal, trunc(((sal*0.15)+sal)) incremented 
+from emp
+
+3:
+
+select ename, round(months_between(sysdate, hiredate)) months_worked 
+from emp order by months_worked;
+
+4:
+
+select ename ||'exams'||sal||'momthly'
+from emp
+
+5:
+
+select initcap(ename), length(ename)
+from emp
+where(enmae like'J%' OR ename like 'A%' OR ename like 'M%') 
+
+6:
+
+select ename, hiredate, to_char(hiredate, 'day'), to_char(hiredate_1,'d')num from emp order by num;
+
+7:
+
+select deptno, job, count(*), num_emp from emp
+group by deptno, job
+
+8:
+
+select D.dname, D.loc, count(e.empno) no_ofemp
+round( AVG(e.sal),2) 
+from emp e, dept D where e.deptno=D.deptno
+group by D.dname, D.loc;
+
+9:
+
+select e.ename, e.deptno, e.job 
+from emp e, dept d
+where (d.deptno=e.deptno AND d.loc= 'DALLAS')
+
+10:
+
+select (max(sal)-min(sal)) difference
+from emp;
+
+11:
+
+select manager.ename, MGR, count(*)num 
+from empworker, emp manager
+where(worker.mgr=manager.empno)
+group by manager.ename;

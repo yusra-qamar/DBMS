@@ -1,0 +1,31 @@
+Q. Modify the code in lab7_4.sql to create a report containing the department name, employee
+last name, hire date, salary, and each employee’s annual salary for all employees in a given
+location. Label the columns DEPARTMENT NAME, EMPLOYEE NAME, START DATE,
+SALARY, and ANNUAL SALARY, placing the labels on multiple lines. Resave the script as
+lab7_5.sql and execute the commands in the script.
+SET ECHO OFF
+SET FEEDBACK OFF
+SET VERIFY OFF
+BREAK ON department_name
+COLUMN department_name HEADING "DEPARTMENT|NAME"
+COLUMN last_name HEADING "EMPLOYEE|NAME"
+COLUMN hire_date HEADING "START|DATE"
+COLUMN salary HEADING "SALARY" FORMAT $99,990.00
+COLUMN asal HEADING "ANNUAL|SALARY" FORMAT $99,990.00
+SELECT d.department_name, e.last_name, e.hire_date,
+e.salary, e.salary*12 asal
+FROM departments d, employees e, locations l
+WHERE e.department_id = d.department_id
+AND d.location_id = l.location_id
+AND l.city = ’&p_location’
+ORDER BY d.department_name
+/
+COLUMN department_name CLEAR
+COLUMN last_name CLEAR
+COLUMN hire_date CLEAR
+COLUMN salary CLEAR
+COLUMN asal CLEAR
+CLEAR BREAK
+SET VERIFY ON
+SET FEEDBACK ON
+SET ECHO ON

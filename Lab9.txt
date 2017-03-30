@@ -1,0 +1,12 @@
+Lab 9:
+Question 1:
+Create sequence employee.empno incremented by 1 start with 1 max value 50
+
+Question 2:
+i) Create index substring employee_name_idx on employee
+ii) Create index employee_designation_idx on employee(designation)
+iii) Create index training_title10_idx on training(sub(title,1,10))
+
+Question 3:
+i) Create bitmap index ind_employee_gender on employee(gender)
+ii) Create bitmap index ind_emp_project_perf on emp_project(performance)

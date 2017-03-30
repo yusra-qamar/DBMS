@@ -1,0 +1,54 @@
+Lab 8:
+Question 1:
+Create table grade(designation varcahr(30) constraint grade_designation_pk primary key, grade number(2), totalposts number(4), posts available(4))
+create table employee(empno number(4) constraints employee_empno_pk primary key, name varchar2(18) not null, designation varchar2(30), qualification varchar2(18), joindate date default sysdate, constraint employee_designation_fk foreign key(designation) references grade(designation))
+create table project(pid varchar2(4) constraint project_pid_pk primary key, title varchar2(18) not null, client varchar2(30), duration number(4), status varchar2(18))
+create table training(tcode varchar2(5) constraint training_tcode_pk primary key, title varchar2(30) not null, startdate date, enddate date)
+create table emp_project(empno number(4), pid varchar2(4), performance varchar2(18), constraint emp_project_empno_fk foreign key(empno) references(employee(empno), constraint emp_project_pid_fk foreign key(pid) references project(pid))
+create table emp_training(empno number(4), tcode varchar2(5), attendence number(9,2), constraintemp_training_empno_fk foreign key(empno) references( employee(empno), constraint emp_training_tcode_fk foreign key(tcode) references training(tcode))
+
+Question 2:
+Alter table employee add(gender varchar 2(8) where (gender('Male','Female')))
+Alter table training add(instructor_name varchar 2(20))
+Atler table grade add(salary *****)
+
+Question 3:
+Insert into gender values('CLERK', 12, 8, 8, 1600)
+Insert into gender values('PROGRAMMAR', 17, 6, 6)
+Insert into gender values('DATABASE DEVELOPER', 17, 4, 4)
+Insert into gender values('SENIOR SYSTEM ANALYST', 18, 2, 2)
+
+Question 4:
+Insert into employee values(3400,'ASIF','DATABASE DEVELOPER','B.E.','25thNov,2000','Male')
+Insert into employee values(3108,'MEHMOOD','SENIOR SYSTEM ANALYST','M.S.','16thMay,1996','Male')
+Insert into employee values(3345,'FARHAN','DATABASE DEVELOPER','B.E.','23rdApril,2001','Male')
+Insert into employee values(3315,'NAVEED','CLERK','B.A.','11thJan,1997','Male')
+Insert into employee values(3300,'NAVEEN','CLERK','B.A.','24thFeb,1998','Female')
+
+Question 5:
+Insert training values(03,'Developer 6i','23rdMay,2002','13thJuly,2002')
+Insert training values(13,'Java','14thJan,2001','15thMarch,2001')
+Insert training values(17,'Typing/Short Hand','22ndJan,2001','22ndJuly,2001')
+
+Question 6:
+Insert into project values(03,'Payroll','Superior Bank',12,'New')
+Insert into project values(321,'Accounts','ABC Leasing',16,'In Progress')
+Insert into project values(178,'Taxation','Farhan Motors',4,'Complete')
+Insert into project values(315,'Payroll','ABC Leasing',8,'New')
+Insert into project values(300,'Inventory','Khurram Textile Mills',12,'In Progress')
+
+Question 7:
+Insert into emp_training values(87,'Developer6i',3400)
+Insert into emp_training values(300,'Typing Short Hand',3300)
+
+Question 8:
+Insert into emp_project values(3400,023,'Good')
+Insert into emp_project values(3300,023,'Excellent')
+Insert into emp_project values(3345,321,'Bad')
+
+Question 9:
+
+Question 10:
+i) Create view v1 as select empno,designation from employee
+ii) Create view v2 as select e.empno,e.ename,p.title,m.performance from employee e.project,p.empprojectm where(e.empno=manager) and (p.PID=m.PID)
+iii) Create view v3 (empno, name, countperf) as select e.ename, e.empno, count(p.performance) from employee e, empproject p where((e.empno=p.empno) and p.performance='Excellent')) group by e.empno, e.ename

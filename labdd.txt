@@ -1,0 +1,128 @@
+
+                                       LAB 6
+Write a script to display the employee last name, job, and hire date for all employees who
+started between a given range. Concatenate the name and job together, separated by a space
+and comma, and label the column Employees. In a separate SQL script file, use the DEFINE
+command to provide the two ranges. Use the format MM/DD/YYYY. 
+
+SET ECHO OFF
+SET VERIFY OFF
+DEFINE low_date = 01/01/1998
+DEFINE high_date = 01/01/1999
+
+SELECT last_name ||’, ’|| job_id EMPLOYEES, hire_date
+FROM employees
+WHERE hire_date BETWEEN TO_DATE(’&low_date’, ’MM/DD/YYYY’)
+AND TO_DATE(’&high_date’, ’MM/DD/YYYY’)
+/
+UNDEFINE low_date
+UNDEFINE high_date
+SET VERIFY ON
+SET ECHO ON
+
+
+
+4. Write a script to display the employee last name, job, and department name for a given location.
+The search condition should allow for case-insensitive searches of the department location. Save
+the script file as lab7_4.sql.
+SET ECHO OFF
+SET VERIFY OFF
+COLUMN last_name HEADING "EMPLOYEE NAME"
+COLUMN department_name HEADING "DEPARTMENT NAME”
+SELECT e.last_name, e.job_id, d.department_name
+FROM employees e, departments d, locations l
+WHERE e.department_id = d.department_id
+AND l.location_id = d.location_id
+AND l.city = INITCAP('&p_location')
+/
+COLUMN last_name CLEAR
+COLUMN department_name CLEAR
+SET VERIFY ON
+SET ECHO ON
+
+                                          LAB 14
+
+2. Write a PL/SQL block that prints the number of employees who earn plus or minus $100
+of the salary value set for an iSQL*Plus substitution variable.
+
+SET SERVEROUTPUT ON
+DEFINE EmpSal NUMBER(4)
+ACCEPT EmpSal PROMPT 'Enter the Salary'
+DECLARE
+sal NUMBER(4):='&EmpSal';
+EmpNo NUMBER(3);
+BEGIN
+SELECT count(*) INTO EmpNo FROM EMPLOYEES where SALARY =(sal-100) or SALARY=(sal+100);
+DBMS_OUTPUT.PUT_LINE(EmpNo);
+END;
+
+a. If there is no employee within that salary range, print a message to the user indicating
+that is the case. Use an exception for this case.
+
+SET ECHO OFF
+SET SERVEROUTPUT ON
+DEFINE EmpSal NUMBER(4)
+ACCEPT EmpSal PROMPT 'Enter the Salary'
+declare
+SAL number(5):='&EmpSal';
+Empno NUMBER(4);
+begin
+SELECT count(*) INTO Empno FROM EMPLOYEES where SALARY BETWEEN (sal-100) and (sal+100);
+If Empno =0 THEN
+RAISE NO_DATA_FOUND;
+ELSE
+DBMS_OUTPUT.PUT_LINE(EmpNo);
+END IF;
+EXCEPTION
+WHEN NO_DATA_FOUND THEN
+DBMS_OUTPUT.PUT_LINE('There is no employee in that salary range');
+END;
+
+b. If there are one or more employees within that range, the message should indicate how many employees are in that salary range.
+c. Handle any other exception with an appropriate exception handler. The message should indicate that some other error occurred.
+
+SET ECHO OFF
+SET SERVEROUTPUT ON
+DEFINE EmpSal NUMBER(4)
+ACCEPT EmpSal PROMPT 'Enter the Salary'
+declare
+NO_DATA_FOUNDING EXCEPTION;
+sal NUMBER(5):='&EmpSal';
+Empno NUMBER(3);
+begin
+SELECT count(*) INTO Empno FROM EMPLOYEES where SALARY BETWEEN (sal-100) and (sal+100);
+if EMPNO =0 then
+RAISE NO_DATA_FOUNDING;
+ELSE
+DBMS_OUTPUT.PUT_LINE(EmpNo||' Employees are in salary range');
+END IF;
+EXCEPTION
+WHEN NO_DATA_FOUNDING THEN
+DBMS_OUTPUT.PUT_LINE('There is no emp in that salary range');
+WHEN OTHERS THEN
+DBMS_OUTPUT.PUT_LINE('SOME OTHER ERRORS');
+END;
+    
+Q1:C
+BEGIN
+   SELECT     last name
+   INTO       v_ename
+   FROM       employees
+   WHERE      salary = v_emp_sal;
+   INSERT INTO messages (result)
+   VALUES (v_ename || ' - ' || v_emp_sal);
+Q1:b
+   EXCEPTION
+   WHEN no_data_found THEN
+   INSERT INTO message (result)
+   VALUES ('No employee with a salary of '|| TO_CHAR(v_emp_sal));
+Q1:a
+   WHEN too_many_rows THEN 
+   INSERT INTO message (result)
+   VALUES ('More than one employee with a salary of '||
+            TO_CHAR(v_emp_sal));
+Q1:d
+   WHEN other THEN
+       INSERT INTO message (result)
+       VALUES ('some other error occred.');
+   END;
